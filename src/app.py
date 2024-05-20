@@ -9,7 +9,7 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User, Favourites, Characters, Planets, Vehicles
-#from models import Person
+
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -26,12 +26,12 @@ db.init_app(app)
 CORS(app)
 setup_admin(app)
 
-# Handle/serialize errors like a JSON object
+
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-# generate sitemap with all your endpoints
+
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
@@ -44,7 +44,7 @@ def get_all_users():
 
     return jsonify(all_users), 200
 
-# [GET] /characters Get a list of all the characters in the database.
+
 
 @app.route('/characters', methods=['GET'])
 def get_all_characters():
@@ -54,7 +54,7 @@ def get_all_characters():
 
     return jsonify(all_characters), 200
 
-# [GET] /characters/<int:characters_id> Get one single person's information.
+
 
 @app.route('/characters/<int:characters_id>', methods=['GET'])
 def get_character(characters_id):
@@ -64,7 +64,7 @@ def get_character(characters_id):
 
     return jsonify(one_character), 200
 
-# [GET] /planets Get a list of all the planets in the database.
+
 
 @app.route('/planets', methods=['GET'])
 def get_all_planets():
@@ -74,7 +74,7 @@ def get_all_planets():
 
     return jsonify(all_planets), 200
 
-# [GET] /planets/<int:planets_id> Get one single planet's information.
+
 
 @app.route('/planets/<int:planets_id>', methods=['GET'])
 def get_planet(planets_id):
@@ -84,7 +84,7 @@ def get_planet(planets_id):
 
     return jsonify(one_planet), 200
 
-# [GET] /vehicles Get a list of all the vehicles in the database.
+
 
 @app.route('/vehicles', methods=['GET'])
 def get_all_vehicles():
@@ -94,7 +94,6 @@ def get_all_vehicles():
 
     return jsonify(all_vehicles), 200
 
-# [GET] /vehicles/<int:vehicles_id> Get one single vehicle's information.
 
 @app.route('/vehicles/<int:vehicles_id>', methods=['GET'])
 def get_vehicle(vehicles_id):
@@ -104,7 +103,7 @@ def get_vehicle(vehicles_id):
 
     return jsonify(one_vehicle), 200
 
-# [GET] /users/favorites Get all the favorites that belong to the current user.
+
 
 @app.route('/<int:user_id>/favourites', methods=['GET'])
 def get_user_favourites(user_id):
@@ -116,7 +115,7 @@ def get_user_favourites(user_id):
 
     return jsonify(all_favourites), 200
 
-# [POST] /favorite/planet/<int:planet_id> Add a new favorite planet to the current user with the planet id = planet_id.
+
 
 @app.route('/favourite/planet/<int:planets_id>', methods=['POST'])
 def add_favorite_planet(planets_id):
@@ -134,7 +133,7 @@ def add_favorite_planet(planets_id):
 
     return jsonify({'message': 'Favorite planet added successfully'}), 200
 
-# [POST] /favorite/people/<int:people_id> Add new favorite people to the current user with the people id = people_id.
+
 
 @app.route('/favourite/characters/<int:characters_id>', methods=['POST'])
 def add_favorite_character(characters_id):
@@ -152,7 +151,7 @@ def add_favorite_character(characters_id):
 
     return jsonify({'message': 'Favorite character added successfully'}), 200
 
-# [DELETE] /favorite/planet/<int:planet_id> Delete a favorite planet with the id = planet_id.
+
 
 @app.route('/favorite/planet/<int:planets_id>', methods=['DELETE'])
 def delete_favorite_planet(planets_id):
@@ -163,7 +162,6 @@ def delete_favorite_planet(planets_id):
     db.session.commit()
     return jsonify({'message': 'Favorite planet deleted successfully'}), 200
 
-# [DELETE] /favorite/people/<int:people_id> Delete a favorite people with the id = people_id.
 
 @app.route('/favorite/characters/<int:characters_id>', methods=['DELETE'])
 def delete_favorite_character(characters_id):
@@ -175,7 +173,6 @@ def delete_favorite_character(characters_id):
     return jsonify({'message': 'Favorite character deleted successfully'}), 200
 
 
-# Create also endpoints to add (POST), update (PUT), and delete (DELETE) planets and characters
 
 @app.route('/characters', methods=['POST'])
 def post_characters():
